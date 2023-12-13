@@ -1,0 +1,46 @@
+<objectForm>
+    <form th:action="@{/offer/add}"
+          th:method="post"
+          th:object="${offerDTO}"
+          class="m-md-auto w-50 pb-3">
+        <input type="hidden" th:field="${offerDTO.id}" />
+        <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <input th:field="${offerDTO.description}" th:errorclass="is-invalid" type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+            <small th:if="${#fields.hasErrors('description')}" th:errors="${offerDTO.description}" class="text-danger">Error message</small>
+        </div>
+        <div class="form-group mb-3">
+            <label for="engine">Engine</label>
+            <select th:errorclass="is-invalid" class="form-control" id="engine" name="engine">
+                <option th:each="e : ${engine}" th:value="${e}" th:text="${e}" th:selected="${e == offerDTO.engine}">Engine</option>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label for="transmission">transmission</label>
+            <select th:field="${offerDTO.transmission}" th:errorclass="is-invalid" type="text" class="form-control" id="transmission" name="transmission" placeholder="Enter transmission">
+                <option th:each="t : ${transmission}" th:value="${t}" th:text="${t}" th:selected="${t == offerDTO.transmission}">transmission</option>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label for="price">Price</label>
+            <input th:field="${offerDTO.price}" th:errorclass="is-invalid" type="text" class="form-control" id="price" name="price" placeholder="Enter price">
+            <small th:if="${#fields.hasErrors('price')}" th:errors="${offerDTO.price}" class="text-danger">Error message</small>
+        </div>
+        <div class="form-group mb-3">
+            <label for="mileage">Mileage</label>
+            <input th:field="${offerDTO.mileage}" th:errorclass="is-invalid" type="text" class="form-control" id="mileage" name="mileage" placeholder="Enter mileage">
+            <small th:if="${#fields.hasErrors('mileage')}" th:errors="${offerDTO.mileage}" class="text-danger">Error message</small>
+        </div>
+        <div class="form-group mb-3">
+            <label for="year">Year</label>
+            <input th:field="${offerDTO.year}" th:errorclass="is-invalid" type="text" class="form-control" id="year" name="year" placeholder="Enter year">
+            <small th:if="${#fields.hasErrors('year')}" th:errors="${offerDTO.year}" class="text-danger">Error message</small>
+        </div>
+        <div class="form-group mb-3">
+            <label for="imageUrl">Image URL</label>
+            <input th:field="${offerDTO.imageUrl}" th:errorclass="is-invalid" type="text" class="form-control" id="imageUrl" name="imageUrl" placeholder="Enter image URL">
+            <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="${offerDTO.imageUrl}" class="text-danger">Error message</small>
+        </div>
+        <button type="submit" th:text="${flag == 'true'} ? 'Update Offer' : 'Add Offer'" class="btn btn-primary"></button>
+    </form>
+</objectForm>

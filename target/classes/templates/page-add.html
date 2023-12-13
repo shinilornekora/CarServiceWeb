@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}"><title>Add Record</title></head>
+<body>
+<div th:replace="~{fragments/header}">Navbar</div>
+<main class="container">
+<!--    <div th:include="fragments :: ${#object}"></div>-->
+    <div th:if="${object == 'brand'}" th:include="fragments/brand-add :: objectForm"></div>
+    <div th:if="${object == 'model'}" th:include="fragments/model-add :: objectForm"></div>
+    <div th:if="${object == 'offer'}" th:include="fragments/offer-add :: objectForm"></div>
+    <!--    <div th:if="${selectedObject eq 'Model'}" th:include="fragments/recordForm :: model-add"></div>-->
+
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
