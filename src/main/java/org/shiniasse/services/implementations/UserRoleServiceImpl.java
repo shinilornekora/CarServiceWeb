@@ -6,11 +6,15 @@ import org.shiniasse.entities.UserRole;
 import org.shiniasse.repositories.UserRoleRepository;
 import org.shiniasse.services.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@EnableCaching
 @Service
 public class UserRoleServiceImpl implements UserRoleService<String> {
     private final ModelMapper modelMapper;
@@ -22,6 +26,7 @@ public class UserRoleServiceImpl implements UserRoleService<String> {
         this.userRoleRepository = userRoleRepository;
     }
 
+    @Cacheable("userRole")
     @Override
     public void saveUserRole(UserRoleDTO userRoleDTO) {
         try {
@@ -31,6 +36,7 @@ public class UserRoleServiceImpl implements UserRoleService<String> {
         }
     }
 
+    @Cacheable("userRole")
     @Override
     public UserRoleDTO getUserRole(String uuid) {
         try {
@@ -40,11 +46,13 @@ public class UserRoleServiceImpl implements UserRoleService<String> {
         }
     }
 
+    @CacheEvict(cacheNames = "userRole", allEntries = true)
     @Override
     public void updateUserRole(UserRoleDTO userRoleDTO) {
         saveUserRole(userRoleDTO);
     }
 
+    @CacheEvict(cacheNames = "userRole", allEntries = true)
     @Override
     public void deleteUserRole(String uuid) {
         userRoleRepository.deleteById(uuid);

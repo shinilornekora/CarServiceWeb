@@ -7,6 +7,9 @@ import org.shiniasse.entities.User;
 import org.shiniasse.repositories.UserRepository;
 import org.shiniasse.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@EnableCaching
 @Service
 public class UserServiceImpl implements UserService<String > {
     private final ModelMapper modelMapper;
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService<String > {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
     }
+    @Cacheable("users")
     @Override
     public List<UserDTO> getAllUsers() {
         try {
@@ -34,6 +39,7 @@ public class UserServiceImpl implements UserService<String > {
         return null;
     }
 
+    @Cacheable("users")
     @Override
     public void saveUser(UserDTO userDTO) {
         try {
@@ -43,6 +49,7 @@ public class UserServiceImpl implements UserService<String > {
         }
     }
 
+    @Cacheable("users")
     @Override
     public UserDTO saveAndGetUser(UserDTO userDTO) {
         try {
@@ -54,6 +61,7 @@ public class UserServiceImpl implements UserService<String > {
         return null;
     }
 
+    @Cacheable("users")
     @Override
     public UserDTO getUser(String uuid) {
         try {
@@ -63,11 +71,13 @@ public class UserServiceImpl implements UserService<String > {
         }
     }
 
+    @CacheEvict(cacheNames = "users", allEntries = true)
     @Override
     public void updateUser(UserDTO userDTO) {
         saveUser(userDTO);
     }
 
+    @CacheEvict(cacheNames = "users", allEntries = true)
     @Override
     public void deleteUser(String uuid) {
         userRepository.deleteById(uuid);

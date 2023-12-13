@@ -6,6 +6,9 @@ import org.shiniasse.entities.Brands;
 import org.shiniasse.repositories.BrandRepository;
 import org.shiniasse.services.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@EnableCaching
 @Service
 public class BrandServiceImpl implements BrandService<String> {
     private final BrandRepository brandRepository;
@@ -23,6 +27,8 @@ public class BrandServiceImpl implements BrandService<String> {
         this.brandRepository = brandRepository;
         this.modelMapper = modelMapper;
     }
+
+    @Cacheable("brands")
     @Override
     public List<BrandDTO> getAllBrands() {
         try {
@@ -32,6 +38,7 @@ public class BrandServiceImpl implements BrandService<String> {
         }
         return null;
     }
+    @Cacheable("brands")
     @Override
     public void saveBrand(BrandDTO brandDTO) {
         try {
@@ -41,6 +48,7 @@ public class BrandServiceImpl implements BrandService<String> {
         }
     }
 
+    @Cacheable("brands")
     @Override
     public BrandDTO saveAndGetBrand(BrandDTO brandDTO) {
         try {
@@ -52,6 +60,7 @@ public class BrandServiceImpl implements BrandService<String> {
         return null;
     }
 
+    @Cacheable("brands")
     @Override
     public BrandDTO getBrand(String uuid) {
         try {
@@ -61,11 +70,13 @@ public class BrandServiceImpl implements BrandService<String> {
         }
     }
 
+    @CacheEvict(cacheNames = "brands", allEntries = true)
     @Override
     public void updateBrand(BrandDTO brandDTO) {
         saveBrand(brandDTO);
     }
 
+    @CacheEvict(cacheNames = "brands", allEntries = true)
     @Override
     public void deleteBrand(String uuid) {
         brandRepository.deleteById(uuid);

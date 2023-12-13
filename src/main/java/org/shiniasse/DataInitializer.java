@@ -17,9 +17,9 @@ public class DataInitializer implements CommandLineRunner {
     private final UserService<String> userService;
 
     @Autowired
-    public DataInitializer(BrandService brandService, ModelService modelService,
-                           OfferService offerService, UserService userService,
-                           UserRoleService userRoleService) {
+    public DataInitializer(BrandService<String> brandService, ModelService<String> modelService,
+                           OfferService<String> offerService, UserService<String> userService,
+                           UserRoleService<String> userRoleService) {
         this.brandService = brandService;
         this.modelService = modelService;
         this.offerService = offerService;
@@ -107,6 +107,5 @@ public class DataInitializer implements CommandLineRunner {
         offerService.saveOffer(offer2);
 
         System.out.println(brandDTO1);
-
     }
 }

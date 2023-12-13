@@ -7,6 +7,9 @@ import org.shiniasse.entities.Offer;
 import org.shiniasse.repositories.OfferRepository;
 import org.shiniasse.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@EnableCaching
 @Service
 public class OfferServiceImpl implements OfferService<String> {
     private final ModelMapper modelMapper;
@@ -24,6 +28,7 @@ public class OfferServiceImpl implements OfferService<String> {
         this.modelMapper = modelMapper;
         this.offerRepository = offerRepository;
     }
+    @Cacheable("offers")
     @Override
     public List<OfferDTO> getAllOffers() {
         try {
@@ -34,6 +39,7 @@ public class OfferServiceImpl implements OfferService<String> {
         }
         return null;
     }
+    @Cacheable("offers")
     @Override
     public void saveOffer(OfferDTO offerDTO) {
         try {
@@ -43,6 +49,7 @@ public class OfferServiceImpl implements OfferService<String> {
         }
     }
 
+    @Cacheable("offers")
     @Override
     public OfferDTO getOffer(String uuid) {
         try {
@@ -52,22 +59,26 @@ public class OfferServiceImpl implements OfferService<String> {
         }
     }
 
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     @Override
     public void updateOffer(OfferDTO offerDTO) {
         saveOffer(offerDTO);
     }
 
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     @Override
     public void deleteOffer(String uuid) {
         offerRepository.deleteById(uuid);
     }
 
+    @Cacheable("offers")
     @Override
     public List<OfferDTO> getSortedUpOffers() {
         return offerRepository.getSortedUpOffers()
                 .stream().map(offer -> modelMapper.map(offer, OfferDTO.class)).collect(Collectors.toList());
     }
 
+    @Cacheable("offers")
     @Override
     public List<OfferDTO> getSortedDownOffers() {
         return offerRepository.getSortedDownOffers()

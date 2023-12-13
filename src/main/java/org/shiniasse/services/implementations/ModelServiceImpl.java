@@ -7,6 +7,9 @@ import org.shiniasse.entities.Models;
 import org.shiniasse.repositories.ModelRepository;
 import org.shiniasse.services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@EnableCaching
 @Service
 public class ModelServiceImpl implements ModelService<String > {
     private final ModelRepository modelRepository;
@@ -24,6 +28,7 @@ public class ModelServiceImpl implements ModelService<String > {
         this.modelRepository = modelRepository;
         this.modelMapper = modelMapper;
     }
+    @Cacheable("models")
     @Override
     public List<ModelDTO> getAllModels() {
         try {
@@ -34,6 +39,7 @@ public class ModelServiceImpl implements ModelService<String > {
         return null;
     }
 
+    @Cacheable("models")
     @Override
     public void saveModel(ModelDTO modelDTO) {
         try {
@@ -43,6 +49,7 @@ public class ModelServiceImpl implements ModelService<String > {
         }
     }
 
+    @Cacheable("models")
     @Override
     public ModelDTO saveAndGetModel(ModelDTO modelDTO) {
         try {
@@ -54,6 +61,7 @@ public class ModelServiceImpl implements ModelService<String > {
         return null;
     }
 
+    @Cacheable("models")
     @Override
     public ModelDTO getModel(String uuid) {
         try {
@@ -63,15 +71,19 @@ public class ModelServiceImpl implements ModelService<String > {
         }
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void updateModel(ModelDTO modelDTO) {
         saveModel(modelDTO);
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void deleteModel(String uuid) {
         modelRepository.deleteById(uuid);
     }
+
+    @Cacheable("models")
     @Override
     public List<ModelDTO> getModelsByBrandId(String brandId) {
         List<Models> list = modelRepository.getModelsByBrandId(brandId);
