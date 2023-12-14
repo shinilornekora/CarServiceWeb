@@ -1,6 +1,9 @@
 package org.shiniasse.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shiniasse.dtos.BrandDTO;
 import org.shiniasse.services.implementations.BrandServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,28 +13,35 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
 @RequestMapping("/brands")
 public class BrandController {
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
     BrandServiceImpl brandService;
     @Autowired
     public void setBrandService(BrandServiceImpl brandService) {
+        LOG.log(Level.INFO, "Setting brand service");
         this.brandService = brandService;
     }
 
     @GetMapping("")
     public String getBrands(Model model) {
+        LOG.log(Level.INFO, "Get all brands");
         model.addAttribute("brands", brandService.getAllBrands());
         return "brand-all";
     }
     @GetMapping("/get/{id}")
     public String getBrand(@PathVariable String id, Model model){
+        LOG.log(Level.INFO, "Get brand of id " + id);
         model.addAttribute("brand", brandService.getBrand(id));
         return "brand-all";
     }
 
     @GetMapping("/add")
-    public String addBrand(Model model){
+    public String addBrand(Model model) {
+        LOG.log(Level.INFO, "Adding brand");
+
         model.addAttribute("object", "brand");
         return "page-add";
     }
@@ -42,6 +52,8 @@ public class BrandController {
     }
     @PostMapping("/add")
     public String addBrand(@Valid BrandDTO brandDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        LOG.log(Level.INFO, "Adding brand with name " + brandDTO.getName());
+
         if (brandDTO.getId() != null){
             redirectAttributes.addFlashAttribute("flag","true");
         }
@@ -57,6 +69,8 @@ public class BrandController {
 
     @GetMapping("/update/{id}")
     public String updateBrand(Model model, @PathVariable String id){
+        LOG.log(Level.INFO, "Updating the brand with id " + id);
+
         model.addAttribute("object", "brand");
         model.addAttribute("brandDTO", brandService.getBrand(id));
         model.addAttribute("flag","true");
@@ -65,8 +79,9 @@ public class BrandController {
 
     @GetMapping("/remove/{id}")
     public String removeBrand(@PathVariable String id, Model model){
+        LOG.log(Level.INFO, "Removing brand with id " + id);
         brandService.deleteBrand(id);
-//        model.addAttribute("brands", brandService.getAllBrands());
+
         return "redirect:/";
     }
 }

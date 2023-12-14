@@ -107,5 +107,11 @@ public class DataInitializer implements CommandLineRunner {
         offerService.saveOffer(offer2);
 
         System.out.println(brandDTO1);
+
+        for (int i = 0; i < 1000; i++) {
+            BrandDTO cycleBrand = new BrandDTO();
+            cycleBrand.setName("Vortex" + i);
+            brandService.saveBrand(cycleBrand);
+        }
     }
 }

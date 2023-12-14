@@ -1,6 +1,9 @@
 package org.shiniasse.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shiniasse.dtos.ModelDTO;
 import org.shiniasse.entities.enums.Category;
 import org.shiniasse.services.implementations.BrandServiceImpl;
@@ -15,12 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/model")
 public class ModelController {
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     ModelServiceImpl modelService;
     BrandServiceImpl brandService;
 
     @Autowired
     public void setModelService(ModelServiceImpl modelService) {
+        LOG.log(Level.INFO, "Settings the model service");
         this.modelService = modelService;
     }
 
@@ -31,6 +36,8 @@ public class ModelController {
 
     @GetMapping("")
     public String getModels(Model model) {
+        LOG.log(Level.INFO, "Get all the models");
+
         model.addAttribute("models", modelService.getAllModels());
         return "model-all";
     }
@@ -38,12 +45,16 @@ public class ModelController {
 
     @GetMapping("/get/{id}")
     public String getModel(@PathVariable String id, Model model) {
+        LOG.log(Level.INFO, "Get model with id " + id);
+
         model.addAttribute("model", modelService.getModel(id));
         return "model-all";
     }
 
     @GetMapping("/getByBrand/{brandId}")
     public String getAllModelsByBrandId(Model model, @PathVariable String brandId) {
+        LOG.log(Level.INFO, "Get all models by brand " + brandId);
+
         model.addAttribute("models", modelService.getModelsByBrandId(brandId));
         model.addAttribute("brand", brandService.getBrand(brandId));
         return "model-all";
@@ -51,6 +62,8 @@ public class ModelController {
 
     @GetMapping("/add")
     public String addModel(Model model) {
+        LOG.log(Level.INFO, "Going to the page of adding model");
+
         model.addAttribute("object", "model");
         model.addAttribute("categories", Category.values());
         return "page-add";
@@ -63,6 +76,8 @@ public class ModelController {
 
     @PostMapping("/add")
     public String addModel(@Valid ModelDTO modelDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        LOG.log(Level.INFO, "Add model with name " + modelDTO.getName());
+
         if (modelDTO.getId() != null){
             redirectAttributes.addFlashAttribute("flag","true");
         }
@@ -78,6 +93,8 @@ public class ModelController {
 
     @GetMapping("/update/{id}")
     public String updateModel( @PathVariable String id, Model model) {
+        LOG.log(Level.INFO, "Update model with id " + id);
+
         model.addAttribute("object", "model");
         model.addAttribute("modelDTO", modelService.getModel(id));
         model.addAttribute("flag","true");
@@ -87,8 +104,9 @@ public class ModelController {
 
     @GetMapping("/remove/{id}")
     public String removeModel(@PathVariable String id, Model model) {
+        LOG.log(Level.INFO, "Remove the model with id " + id);
+
         modelService.deleteModel(id);
-//        model.addAttribute("models", modelService.getAllModels());
         return "redirect:/";
     }
 }

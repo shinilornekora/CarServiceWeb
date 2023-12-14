@@ -38,7 +38,6 @@ public class BrandServiceImpl implements BrandService<String> {
         }
         return null;
     }
-    @Cacheable("brands")
     @Override
     public void saveBrand(BrandDTO brandDTO) {
         try {
@@ -48,7 +47,6 @@ public class BrandServiceImpl implements BrandService<String> {
         }
     }
 
-    @Cacheable("brands")
     @Override
     public BrandDTO saveAndGetBrand(BrandDTO brandDTO) {
         try {

@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService<String > {
         return null;
     }
 
-    @Cacheable("users")
     @Override
     public void saveUser(UserDTO userDTO) {
         try {
@@ -49,7 +48,6 @@ public class UserServiceImpl implements UserService<String > {
         }
     }
 
-    @Cacheable("users")
     @Override
     public UserDTO saveAndGetUser(UserDTO userDTO) {
         try {

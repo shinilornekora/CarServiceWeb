@@ -39,7 +39,6 @@ public class OfferServiceImpl implements OfferService<String> {
         }
         return null;
     }
-    @Cacheable("offers")
     @Override
     public void saveOffer(OfferDTO offerDTO) {
         try {

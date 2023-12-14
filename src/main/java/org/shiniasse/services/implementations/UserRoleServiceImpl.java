@@ -26,7 +26,6 @@ public class UserRoleServiceImpl implements UserRoleService<String> {
         this.userRoleRepository = userRoleRepository;
     }
 
-    @Cacheable("userRole")
     @Override
     public void saveUserRole(UserRoleDTO userRoleDTO) {
         try {

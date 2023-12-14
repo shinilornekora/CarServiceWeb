@@ -39,7 +39,6 @@ public class ModelServiceImpl implements ModelService<String > {
         return null;
     }
 
-    @Cacheable("models")
     @Override
     public void saveModel(ModelDTO modelDTO) {
         try {
@@ -49,7 +48,6 @@ public class ModelServiceImpl implements ModelService<String > {
         }
     }
 
-    @Cacheable("models")
     @Override
     public ModelDTO saveAndGetModel(ModelDTO modelDTO) {
         try {
