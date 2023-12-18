@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head}"><title>Brands</title></head>
 <body>
 <div th:replace="~{fragments/header}">Navbar</div>
@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-    <a th:href="@{/brands/add}" class="btn btn-primary">Add new Brand</a>
+    <a th:href="@{/brands/add}" sec:authorize="hasRole('Admin')" class="btn btn-primary">Add new Brand</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

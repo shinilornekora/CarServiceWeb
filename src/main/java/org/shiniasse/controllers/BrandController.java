@@ -13,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/brands")
@@ -26,8 +28,8 @@ public class BrandController {
     }
 
     @GetMapping("")
-    public String getBrands(Model model) {
-        LOG.log(Level.INFO, "Get all brands");
+    public String getBrands(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Get all brands for user " + principal.getName());
         model.addAttribute("brands", brandService.getAllBrands());
         return "brand-all";
     }
@@ -39,8 +41,8 @@ public class BrandController {
     }
 
     @GetMapping("/add")
-    public String addBrand(Model model) {
-        LOG.log(Level.INFO, "Adding brand");
+    public String addBrand(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Adding brand process started by user " + principal.getName());
 
         model.addAttribute("object", "brand");
         return "page-add";
@@ -51,8 +53,8 @@ public class BrandController {
         return new BrandDTO();
     }
     @PostMapping("/add")
-    public String addBrand(@Valid BrandDTO brandDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        LOG.log(Level.INFO, "Adding brand with name " + brandDTO.getName());
+    public String addBrand(@Valid BrandDTO brandDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal){
+        LOG.log(Level.INFO, "Adding brand with name " + brandDTO.getName() + " by " + principal.getName());
 
         if (brandDTO.getId() != null){
             redirectAttributes.addFlashAttribute("flag","true");
@@ -78,8 +80,8 @@ public class BrandController {
     }
 
     @GetMapping("/remove/{id}")
-    public String removeBrand(@PathVariable String id, Model model){
-        LOG.log(Level.INFO, "Removing brand with id " + id);
+    public String removeBrand(@PathVariable String id, Model model, Principal principal){
+        LOG.log(Level.INFO, "Removing brand with id " + id + " by user " + principal.getName());
         brandService.deleteBrand(id);
 
         return "redirect:/";
