@@ -48,7 +48,7 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    public BrandDTO saveAndGetBrand(BrandDTO brandDTO) {
+    public BrandDTO save(BrandDTO brandDTO) {
         try {
             return modelMapper.map(
                     brandRepository.saveAndFlush(modelMapper.map(brandDTO, Brands.class)), BrandDTO.class);

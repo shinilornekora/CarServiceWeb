@@ -7,6 +7,7 @@ import org.shiniasse.entities.enums.Role;
 import org.shiniasse.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,15 +16,17 @@ public class DataInitializer implements CommandLineRunner {
     private final ModelService<String> modelService;
     private final OfferService<String> offerService;
     private final UserService<String> userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public DataInitializer(BrandService<String> brandService, ModelService<String> modelService,
                            OfferService<String> offerService, UserService<String> userService,
-                           UserRoleService<String> userRoleService) {
+                           UserRoleService<String> userRoleService, PasswordEncoder passwordEncoder) {
         this.brandService = brandService;
         this.modelService = modelService;
         this.offerService = offerService;
         this.userService = userService;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @Override
@@ -31,11 +34,11 @@ public class DataInitializer implements CommandLineRunner {
         BrandDTO brandDTO1 = new BrandDTO();
         brandDTO1.setName("Exelero");
 //        получаем сохранённый бренд обратно уже с id для дальшейших операций
-        brandDTO1 = brandService.saveAndGetBrand(brandDTO1);
+        brandDTO1 = brandService.save(brandDTO1);
 
         BrandDTO brandDTO2 = new BrandDTO();
         brandDTO2.setName("Vortex");
-        brandDTO2 = brandService.saveAndGetBrand(brandDTO2);
+        brandDTO2 = brandService.save(brandDTO2);
 
         ModelDTO modelDTO1 = new ModelDTO();
         modelDTO1.setName("Midiat");
@@ -43,7 +46,7 @@ public class DataInitializer implements CommandLineRunner {
         modelDTO1.setStartYear(2016);
         modelDTO1.setEndYear(2020);
         modelDTO1.setBrand(brandDTO1);
-        modelDTO1 = modelService.saveAndGetModel(modelDTO1);
+        modelDTO1 = modelService.save(modelDTO1);
 
         ModelDTO modelDTO2 = new ModelDTO();
         modelDTO2.setName("Soft-xp");
@@ -51,7 +54,7 @@ public class DataInitializer implements CommandLineRunner {
         modelDTO2.setStartYear(2016);
         modelDTO2.setEndYear(2020);
         modelDTO2.setBrand(brandDTO2);
-        modelDTO2 = modelService.saveAndGetModel(modelDTO2);
+        modelDTO2 = modelService.save(modelDTO2);
 
         ModelDTO modelDTO3 = new ModelDTO();
         modelDTO3.setName("Hard-pv");
@@ -59,7 +62,7 @@ public class DataInitializer implements CommandLineRunner {
         modelDTO3.setStartYear(2016);
         modelDTO3.setEndYear(2020);
         modelDTO3.setBrand(brandDTO2);
-        modelDTO3 = modelService.saveAndGetModel(modelDTO3);
+        modelDTO3 = modelService.save(modelDTO3);
 
         UserRoleDTO userRoleDTO1 = new UserRoleDTO();
         userRoleDTO1.setRole(Role.valueOf("Admin"));
@@ -74,7 +77,14 @@ public class DataInitializer implements CommandLineRunner {
         userDTO1.setLastName("Mouse");
         userDTO1.setActive(false);
         userDTO1.setRole(userRoleDTO2);
-        userDTO1 = userService.saveAndGetUser(userDTO1);
+        userDTO1 = userService.save(userDTO1);
+
+        UserDTO userDTO0 = new UserDTO();
+        userDTO0.setUsername("Admin");
+        userDTO0.setPassword(passwordEncoder.encode("Admin"));
+        userDTO0.setActive(true);
+        userDTO0.setRole(new UserRoleDTO(Role.Admin));
+        userService.save(userDTO0);
 
         UserDTO userDTO2 = new UserDTO();
         userDTO2.setUsername("Jack");
@@ -83,7 +93,7 @@ public class DataInitializer implements CommandLineRunner {
         userDTO2.setLastName("Frost");
         userDTO2.setActive(true);
         userDTO2.setRole(userRoleDTO1);
-        userDTO2 = userService.saveAndGetUser(userDTO2);
+        userDTO2 = userService.save(userDTO2);
 
         // Создание начальных данных для Offer
         OfferDTO offer1 = new OfferDTO();

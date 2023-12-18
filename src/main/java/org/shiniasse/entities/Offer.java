@@ -18,6 +18,8 @@ public class Offer extends InheritableDataEntity {
     private Models model;
     private User seller;
 
+    public Offer() {
+    }
 
     @Column(name = "description")
     public String getDescription() {

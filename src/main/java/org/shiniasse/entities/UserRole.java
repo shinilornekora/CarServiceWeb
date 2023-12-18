@@ -9,6 +9,14 @@ import java.util.List;
 public class UserRole extends InheritableIdEntity {
     private Role role;
     private List<User> users; // maybe Set
+
+    public UserRole(Role role) {
+        this.role = role;
+    }
+
+    public UserRole() {
+    }
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     public Role getRole() {

@@ -49,7 +49,7 @@ public class ModelServiceImpl implements ModelService<String > {
     }
 
     @Override
-    public ModelDTO saveAndGetModel(ModelDTO modelDTO) {
+    public ModelDTO save(ModelDTO modelDTO) {
         try {
             return modelMapper.map(
                     modelRepository.saveAndFlush(modelMapper.map(modelDTO, Models.class)), ModelDTO.class);

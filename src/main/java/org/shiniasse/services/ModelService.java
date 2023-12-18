@@ -7,7 +7,7 @@ import java.util.List;
 public interface ModelService<ID> {
     List<ModelDTO> getAllModels();
     void saveModel(ModelDTO modelDTO);
-    ModelDTO saveAndGetModel(ModelDTO modelDTO);
+    ModelDTO save(ModelDTO modelDTO);
     ModelDTO getModel(ID id);
     void updateModel(ModelDTO modelDTO);
     void deleteModel(ID id);

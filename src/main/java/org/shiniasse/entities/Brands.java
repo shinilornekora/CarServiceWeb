@@ -10,6 +10,9 @@ public class Brands extends InheritableDataEntity {
     private String name;
     private Set<Models> models; // all models in set is unique
 
+    public Brands() {
+    }
+
     @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;

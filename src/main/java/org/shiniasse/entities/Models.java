@@ -17,6 +17,9 @@ public class Models extends InheritableDataEntity {
     private Brands brand;
     private List<Offer> offers;
 
+    public Models() {
+    }
+
     @Column(name = "name", nullable = false)
     public String getName() {
         return name;

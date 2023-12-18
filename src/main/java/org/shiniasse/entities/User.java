@@ -17,6 +17,16 @@ public class User extends InheritableDataEntity {
     private boolean isActive;
     private List<Offer> offers;
 
+    public User(String username, String password, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public User() {
+    }
+
     @Column(name = "username",  unique = true, nullable = false)
     public String getUsername() {
         return username;

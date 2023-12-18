@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService<String > {
     }
 
     @Override
-    public UserDTO saveAndGetUser(UserDTO userDTO) {
+    public UserDTO save(UserDTO userDTO) {
         try {
             return modelMapper.map(
                     userRepository.saveAndFlush(modelMapper.map(userDTO, User.class)), UserDTO.class);

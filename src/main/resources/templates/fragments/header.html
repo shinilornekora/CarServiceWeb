@@ -1,23 +1,30 @@
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-<!--    <div class="col-md-3 mb-2 mb-md-0">-->
-<!--        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">-->
-<!--            <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>-->
-<!--        </a>-->
-<!--    </div>-->
-
+<header class="d-flex flex-wrap align-items-center justify-content-center
+justify-content-md-between py-3 mb-4 border-bottom" xmlns:sec="http://www.w3.org/1999/xhtml">
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
         <li><a href="/brands" class="nav-link px-2">Brands</a></li>
         <li><a href="/model" class="nav-link px-2">Models</a></li>
-<!--        <li><a href="/user" class="nav-link px-2">Users</a></li>-->
-        <li><a href="/offer" class="nav-link px-2">Offers</a></li>
-        <li><a href="/top" class="nav-link px-2">Top-3</a></li>
+        <!--        <li><a href="/user" class="nav-link px-2">Users</a></li>-->
+        <li sec:authorize="isAuthenticated()"><a href="/offer" class="nav-link px-2">Offers</a></li>
+        <li sec:authorize="isAuthenticated()"><a href="/top" class="nav-link px-2">Top-3</a></li>
     </ul>
 
-    <div class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-primary me-2">Login</button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
-    </div>
-    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li style="margin-right: 5px"
+            sec:authorize="isAuthenticated()">
+            <form th:action="@{/user/logout}"
+                  th:metod="post">
+                <input class="btn btn-link nav-link" type="submit" value="Logout">
+            </form>
+        </li>
+        <li style="margin-right: 5px" sec:authorize="!isAuthenticated()">
+            <a href="/user/registration" class="btn btn-primary">Reg</a>
+        </li>
+        <li style="margin-right: 5px" sec:authorize="!isAuthenticated()">
+            <a href="/user/login" class="btn btn-primary">Login</a>
+        </li>
+    </ul>
+
+<!--    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>-->
 </header>
 
