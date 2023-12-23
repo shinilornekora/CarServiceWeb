@@ -37,6 +37,7 @@ public class BrandServiceImpl implements BrandService<String> {
         }
         return null;
     }
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void saveBrand(BrandDTO brandDTO) {
         try {
@@ -46,6 +47,7 @@ public class BrandServiceImpl implements BrandService<String> {
         }
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public BrandDTO save(BrandDTO brandDTO) {
         try {

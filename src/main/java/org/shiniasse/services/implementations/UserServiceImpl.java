@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService<String > {
         return null;
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void saveUser(UserDTO userDTO) {
         try {
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService<String > {
         }
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public UserDTO save(UserDTO userDTO) {
         try {

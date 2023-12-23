@@ -4,10 +4,9 @@
 <body>
 <div th:replace="~{fragments/header}">Navbar</div>
 <main>
-
+    <a th:href="@{/offer/add}" class="btn btn-primary buttonOffer">Add new Offer</a>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
-            <a th:href="@{/offer/add}" class="btn btn-primary">Add new Offer</a>
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div th:each="offer : ${offers}" class="col">
@@ -28,7 +27,11 @@
                 </div>
             </div>
 
-
+            <style>
+                .buttonOffer {
+                    margin: 10px;
+                }
+            </style>
         </div>
     </div>
 

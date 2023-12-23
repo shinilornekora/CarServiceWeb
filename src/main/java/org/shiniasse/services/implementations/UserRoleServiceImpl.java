@@ -26,6 +26,7 @@ public class UserRoleServiceImpl implements UserRoleService<String> {
         this.userRoleRepository = userRoleRepository;
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void saveUserRole(UserRoleDTO userRoleDTO) {
         try {

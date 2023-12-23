@@ -39,6 +39,7 @@ public class ModelServiceImpl implements ModelService<String > {
         return null;
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void saveModel(ModelDTO modelDTO) {
         try {
@@ -48,6 +49,7 @@ public class ModelServiceImpl implements ModelService<String > {
         }
     }
 
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public ModelDTO save(ModelDTO modelDTO) {
         try {

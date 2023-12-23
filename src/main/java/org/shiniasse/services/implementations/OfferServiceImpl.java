@@ -39,6 +39,7 @@ public class OfferServiceImpl implements OfferService<String> {
         }
         return null;
     }
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void saveOffer(OfferDTO offerDTO) {
         try {

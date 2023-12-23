@@ -13,12 +13,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/model")
 public class ModelController {
     private static final Logger LOG = LogManager.getLogger(Controller.class);
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
 
     ModelServiceImpl modelService;
     BrandServiceImpl brandService;
@@ -75,7 +82,11 @@ public class ModelController {
     }
 
     @PostMapping("/add")
-    public String addModel(@Valid ModelDTO modelDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addModel(
+            @Valid ModelDTO modelDTO,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
+            @RequestParam("image") MultipartFile file) throws IOException {
         LOG.log(Level.INFO, "Add model with name " + modelDTO.getName());
 
         if (modelDTO.getId() != null){
@@ -87,8 +98,10 @@ public class ModelController {
                     bindingResult);
             return "redirect:/model/add";
         }
+        Files.write(Path.of(UPLOAD_DIRECTORY + file.getOriginalFilename()), file.getBytes());
+        modelDTO.setImageUrl("uploads/" + file.getOriginalFilename());
         modelService.saveModel(modelDTO);
-        return "redirect:/";
+        return "redirect:/model";
     }
 
     @GetMapping("/update/{id}")
