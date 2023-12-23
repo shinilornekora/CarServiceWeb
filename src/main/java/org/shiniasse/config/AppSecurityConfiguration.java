@@ -35,12 +35,6 @@ public class AppSecurityConfiguration {
                                         .permitAll().
                                         requestMatchers("/", "/user/login", "/user/registration", "/user/login-error",
                                                 "/brands", "/user/logout").permitAll().
-//                                        requestMatchers("/user/profile").authenticated().
-//                                        requestMatchers("/employees/add", "/employees/employee-delete/")
-//                                                .hasRole(Role.User.name()).
-//                                        requestMatchers("/companies/add","/companies/company-delete/",
-//                                                "/employees/add", "/employees/employee-delete/")
-//                                                .hasRole(Role.User.name()).
                                         anyRequest().authenticated()
                 )
                 .formLogin(
@@ -54,7 +48,7 @@ public class AppSecurityConfiguration {
                 )
                 .logout((logout) ->
                         logout.logoutUrl("/user/logout").
-                                logoutSuccessUrl("/").
+                                logoutSuccessUrl("/user/login").
                                 invalidateHttpSession(true)
                 ).securityContext(
                         securityContext -> securityContext.

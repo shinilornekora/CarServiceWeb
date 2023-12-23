@@ -28,7 +28,6 @@ public class BrandServiceImpl implements BrandService<String> {
         this.modelMapper = modelMapper;
     }
 
-    @Cacheable("brands")
     @Override
     public List<BrandDTO> getAllBrands() {
         try {
