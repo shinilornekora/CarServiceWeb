@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head th:replace="~{fragments/head}"><title>Models</title></head>
+    <body>
+        <div th:replace="~{fragments/header}">Navbar</div>
+        <div class="container">
+            <div class="profile-info profile_info" th:object="${user}">
+                <h2>User</h2>
+                <h4 th:text="'Username: ' + *{username}"></h4>
+                <h4 th:text="'First Name: ' + *{firstName}"></h4>
+                <h4 th:text="'Last Name: ' + *{lastName}"></h4>
+                <h4 th:text="'Role: ' + *{role.role}"></h4>
+                <b>User Roles: </b>
+                <div sec:authentication="principal.authorities"></div>
+            </div>
+        </div>
+        <style>
+            .profile_info {
+                margin: auto;
+                text-align: center;
+            }
+        </style>
+    </body>
+</html>

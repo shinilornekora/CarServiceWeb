@@ -14,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -83,5 +84,9 @@ public class UserServiceImpl implements UserService<String > {
         userRepository.deleteById(uuid);
     }
 
+    @Cacheable("users")
+    public UserDTO getUserByUsername(String username) {
+        return modelMapper.map(userRepository.findUserByUsername(username), UserDTO.class);
+    }
 
 }

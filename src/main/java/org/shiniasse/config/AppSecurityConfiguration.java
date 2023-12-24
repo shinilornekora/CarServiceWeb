@@ -34,7 +34,7 @@ public class AppSecurityConfiguration {
                                         requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                         .permitAll().
                                         requestMatchers("/", "/user/login", "/user/registration", "/user/login-error",
-                                                "/brands", "/user/logout", "src/uploads/background.png").permitAll().
+                                                "/brands", "/user/logout", "favicon.ico", "*.png").permitAll().
                                         anyRequest().authenticated()
                 )
                 .formLogin(

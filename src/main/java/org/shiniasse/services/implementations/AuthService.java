@@ -38,7 +38,8 @@ public class AuthService {
                 registrationDTO.getUsername(),
                 passwordEncoder.encode(registrationDTO.getPassword()),
                 registrationDTO.getFirstName(),
-                registrationDTO.getLastName()
+                registrationDTO.getLastName(),
+                registrationDTO.getEmail()
         );
         user.setRole(new UserRole(Role.User));
         this.userRepository.save(user);

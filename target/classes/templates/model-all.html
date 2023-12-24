@@ -1,57 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="~{fragments/head}"><title>Models</title></head>
-<body>
-<div th:replace="~{fragments/header}">Navbar</div>
-<main>
+    <head th:replace="~{fragments/head}">
+        <title>Models</title>
+    </head>
 
-    <section th:if="${brand != null}" class="py-5 text-center container">
-        <div class="row py-lg-5">
-            <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light" th:text="${brand.name}">Album example</h1>
-                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-                <p>
-                    <a th:href="@{/brands/update/{brandId}(brandId=${brand.id})}" class="btn btn-primary my-2">Update</a>
-                    <a th:href="@{/brands/remove/{brandId}(brandId=${brand.id})}" class="btn btn-secondary my-2">Delete</a>
-                </p>
-            </div>
-        </div>
-    </section>
+    <body>
+        <div th:replace="~{fragments/header}">Navbar</div>
+        <main>
 
-    <a th:href="@{/model/add}" class="btn btn-primary buttonModel" sec:authorize="hasRole('Admin')">Add new Model</a>
-
-    <div class="album py-5 bg-body-tertiary">
-        <div class="container">
-
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div th:each="model : ${models}" class="col">
-                    <div class="card shadow-sm">
-                        <img th:src="${model.imageUrl}" class="bd-placeholder-img card-img-top" width="100%" height="225"/>
-                        <div class="card-body">
-                            <p class="card-text" th:text="${model.name}">Name</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a th:href="@{/model/update/{id}(id=${model.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                </div>
-                                <small th:text="${model.category}">Category</small>
-                            </div>
-                            <a th:href="@{/model/remove/{id}(id=${model.id})}" class="btn btn-sm btn-outline-secondary">Delete</a>
-                        </div>
+            <section th:if="${brand != null}" class="py-5 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 class="fw-light" th:text="${brand.name}">Album example</h1>
+                        <p class="lead text-body-secondary">
+                            Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.
+                        </p>
+                        <p>
+                            <a sec:authorize="hasRole('Admin')"
+                               th:href="@{/brands/update/{brandId}(brandId=${brand.id})}"
+                               class="btn btn-primary my-2"
+                            >Update</a>
+                            <a th:href="@{/brands/remove/{brandId}(brandId=${brand.id})}"
+                               class="btn btn-secondary my-2"
+                               sec:authorize="hasRole('Admin')"
+                            >Delete</a>
+                        </p>
                     </div>
                 </div>
+            </section>
+
+            <a th:href="@{/model/add}" class="btn btn-primary buttonModel" sec:authorize="hasRole('Admin')">Add new Model</a>
+
+            <div class="album py-5 bg-body-tertiary">
+                <div class="container">
+
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div th:each="model : ${models}" class="col">
+                            <div class="card shadow-sm">
+                                <img th:src="${model.imageUrl}" class="bd-placeholder-img card-img-top" width="100%" height="225"/>
+                                <div class="card-body">
+                                    <p class="card-text" th:text="${model.name}">Name</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div sec:authorize="hasRole('Admin')" class="btn-group">
+                                            <a th:href="@{/model/update/{id}(id=${model.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        </div>
+                                        <small th:text="${model.category}">Category</small>
+                                    </div>
+                                    <a sec:authorize="hasRole('Admin')" th:href="@{/model/remove/{id}(id=${model.id})}" class="btn btn-sm btn-outline-secondary">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        .buttonModel {
+                            margin: 10px;
+                        }
+                    </style>
+                </div>
             </div>
-            <style>
-                .buttonModel {
-                    margin: 10px;
-                }
-            </style>
-        </div>
-    </div>
 
-</main>
+        </main>
 
-<footer th:replace="~{fragments/footer}"></footer>
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <footer th:replace="~{fragments/footer}"></footer>
+        <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-</body>
+    </body>
 </html>

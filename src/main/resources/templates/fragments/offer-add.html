@@ -2,7 +2,9 @@
     <form th:action="@{/offer/add}"
           th:method="post"
           th:object="${offerDTO}"
-          class="m-md-auto w-50 pb-3">
+          class="m-md-auto w-50 pb-3"
+          enctype="multipart/form-data"
+    >
         <input type="hidden" th:field="${offerDTO.id}" />
         <div class="form-group mb-3">
             <label for="description">Description</label>
@@ -36,11 +38,16 @@
             <input th:field="${offerDTO.year}" th:errorclass="is-invalid" type="text" class="form-control" id="year" name="year" placeholder="Enter year">
             <small th:if="${#fields.hasErrors('year')}" th:errors="${offerDTO.year}" class="text-danger">Error message</small>
         </div>
-        <div class="form-group mb-3">
-            <label for="imageUrl">Image URL</label>
-            <input th:field="${offerDTO.imageUrl}" th:errorclass="is-invalid" type="text" class="form-control" id="imageUrl" name="imageUrl" placeholder="Enter image URL">
-            <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="${offerDTO.imageUrl}" class="text-danger">Error message</small>
+        <div class="inputForm form-group mb-3 inputForm">
+            <label for="image">Image</label>
+            <input id="image" type="file" name="image" accept="image/*" class="form-control-sm">
         </div>
         <button type="submit" th:text="${flag == 'true'} ? 'Update Offer' : 'Add Offer'" class="btn btn-primary"></button>
     </form>
+    <style>
+        .inputForm {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </objectForm>

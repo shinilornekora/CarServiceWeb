@@ -13,15 +13,29 @@ public class User extends InheritableDataEntity {
     private String firstName;
     private String lastName;
     private String imageUrl;
+    private String email;
     private UserRole role;
     private boolean isActive;
     private List<Offer> offers;
 
-    public User(String username, String password, String firstName, String lastName) {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User(String username,
+                String password,
+                String firstName,
+                String lastName,
+                String email) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     public User() {

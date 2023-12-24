@@ -17,6 +17,11 @@ justify-content-md-between py-3 mb-4 border-bottom" xmlns:sec="http://www.w3.org
                 <input class="btn btn-link nav-link" type="submit" value="Logout">
             </form>
         </li>
+        <li style="margin-right: 5px"
+            sec:authorize="isAuthenticated()"
+        >
+            <a href="/user/profile" class="btn btn-primary">Profile</a>
+        </li>
         <li style="margin-right: 5px" sec:authorize="!isAuthenticated()">
             <a href="/user/registration" class="btn btn-primary">Reg</a>
         </li>

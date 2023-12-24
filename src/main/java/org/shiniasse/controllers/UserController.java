@@ -6,14 +6,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.shiniasse.dtos.UserDTO;
 import org.shiniasse.dtos.UserRegistrationDTO;
+import org.shiniasse.entities.User;
 import org.shiniasse.services.implementations.AuthService;
 import org.shiniasse.services.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -52,6 +57,18 @@ public class UserController {
     public String loginError(){
         LOG.log(Level.INFO, "Open login-error page");
         return "login-error";
+    }
+
+    @GetMapping("/profile")
+    public String userProfile(Model model, Principal principal) {
+        String username = principal.getName();
+        UserDTO user = new UserDTO();
+        if (username != null) {
+            user = userServiceImpl.getUserByUsername(username);
+        }
+        model.addAttribute("user", user);
+        System.out.println("CHECK USER: " + user.toString());
+        return "user-profile";
     }
 
     @GetMapping("/registration")

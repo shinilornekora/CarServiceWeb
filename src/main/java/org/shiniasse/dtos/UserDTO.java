@@ -9,9 +9,18 @@ public class UserDTO extends BaseDTO {
     private String password;
     private String firstName;
     private String lastName;
+    private String email;
     private boolean isActive;
     private UserRoleDTO role;
     private String imageUrl;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public UserDTO() {
     }

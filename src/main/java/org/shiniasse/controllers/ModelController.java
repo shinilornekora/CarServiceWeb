@@ -99,7 +99,7 @@ public class ModelController {
             return "redirect:/model/add";
         }
         Files.write(Path.of(UPLOAD_DIRECTORY + file.getOriginalFilename()), file.getBytes());
-        modelDTO.setImageUrl("uploads/" + file.getOriginalFilename());
+        modelDTO.setImageUrl("/uploads/" + file.getOriginalFilename());
         modelService.saveModel(modelDTO);
         return "redirect:/model";
     }

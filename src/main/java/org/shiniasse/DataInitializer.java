@@ -32,28 +32,44 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         BrandDTO brandDTO1 = new BrandDTO();
-        brandDTO1.setName("Exelero");
-//        получаем сохранённый бренд обратно уже с id для дальшейших операций
-        brandDTO1 = brandService.save(brandDTO1);
-
         BrandDTO brandDTO2 = new BrandDTO();
-        brandDTO2.setName("Vortex");
+        BrandDTO brandDTO3 = new BrandDTO();
+        BrandDTO brandDTO4 = new BrandDTO();
+        BrandDTO brandDTO5 = new BrandDTO();
+        BrandDTO brandDTO6 = new BrandDTO();
+        BrandDTO brandDTO7 = new BrandDTO();
+        brandDTO1.setName("Bmw");
+        brandDTO2.setName("Kia");
+        brandDTO3.setName("Audi");
+        brandDTO4.setName("Lada");
+        brandDTO5.setName("Chevrolet");
+        brandDTO6.setName("Mercedes");
+        brandDTO7.setName("Infinity");
+
+        brandDTO1 = brandService.save(brandDTO1);
         brandDTO2 = brandService.save(brandDTO2);
+        brandDTO3 = brandService.save(brandDTO3);
+        brandDTO4 = brandService.save(brandDTO4);
+        brandDTO5 = brandService.save(brandDTO5);
+        brandDTO6 = brandService.save(brandDTO6);
+        brandDTO7 = brandService.save(brandDTO7);
 
         ModelDTO modelDTO1 = new ModelDTO();
-        modelDTO1.setName("Midiat");
+        modelDTO1.setName("BMW X3 SUV");
         modelDTO1.setCategory(Category.valueOf("Car"));
         modelDTO1.setStartYear(2016);
         modelDTO1.setEndYear(2020);
+        modelDTO1.setImageUrl("/uploads/car1.jpg");
         modelDTO1.setBrand(brandDTO1);
         modelDTO1 = modelService.save(modelDTO1);
 
         ModelDTO modelDTO2 = new ModelDTO();
-        modelDTO2.setName("Soft-xp");
+        modelDTO2.setName("BMW Z4 Roadster");
         modelDTO2.setCategory(Category.valueOf("Car"));
         modelDTO2.setStartYear(2016);
+        modelDTO2.setImageUrl("/uploads/car1.jpg");
         modelDTO2.setEndYear(2020);
-        modelDTO2.setBrand(brandDTO2);
+        modelDTO2.setBrand(brandDTO1);
         modelDTO2 = modelService.save(modelDTO2);
 
         ModelDTO modelDTO3 = new ModelDTO();
@@ -76,6 +92,7 @@ public class DataInitializer implements CommandLineRunner {
         userDTO1.setFirstName("Miki");
         userDTO1.setLastName("Mouse");
         userDTO1.setActive(false);
+        userDTO1.setEmail("example@gmail.com");
         userDTO1.setRole(userRoleDTO2);
         userDTO1 = userService.save(userDTO1);
 
@@ -91,6 +108,7 @@ public class DataInitializer implements CommandLineRunner {
         userDTO2.setPassword("yhnbvhj");
         userDTO2.setFirstName("Jack");
         userDTO2.setLastName("Frost");
+        userDTO2.setEmail("example_next@gmail.com");
         userDTO2.setActive(true);
         userDTO2.setRole(userRoleDTO1);
         userDTO2 = userService.save(userDTO2);
@@ -103,7 +121,7 @@ public class DataInitializer implements CommandLineRunner {
         offer1.setYear(2017);
         offer1.setModel(modelDTO1);
         offer1.setSeller(userDTO1);
-        offer1.setDescription("seme text");
+        offer1.setDescription("Продаю ласточку");
         offerService.saveOffer(offer1);
 
         OfferDTO offer2 = new OfferDTO();
@@ -113,15 +131,9 @@ public class DataInitializer implements CommandLineRunner {
         offer2.setYear(2018);
         offer2.setModel(modelDTO2);
         offer2.setSeller(userDTO2);
-        offer2.setDescription("some text");
+        offer2.setDescription("Продаю BMW");
         offerService.saveOffer(offer2);
 
         System.out.println(brandDTO1);
-
-        for (int i = 0; i < 1000; i++) {
-            BrandDTO cycleBrand = new BrandDTO();
-            cycleBrand.setName("Vortex" + i);
-            brandService.saveBrand(cycleBrand);
-        }
     }
 }

@@ -13,7 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.shiniasse.controllers.ModelController.UPLOAD_DIRECTORY;
 
 @Controller
 @RequestMapping("/offer")
@@ -72,12 +79,17 @@ public class OfferController {
         return new OfferDTO();
     }
     @PostMapping("/add")
-    public String addOffer(@Valid OfferDTO offerDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String addOffer(@Valid OfferDTO offerDTO,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes,
+                           @RequestParam("image") MultipartFile file
+    ) throws IOException {
         LOG.log(Level.INFO, "Add offer with price " + offerDTO.getPrice());
 
         if (offerDTO.getId() != null){
             redirectAttributes.addFlashAttribute("flag","true");
         }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerDTO", offerDTO);
             redirectAttributes.addAttribute("engine", Engine.values());
@@ -86,7 +98,11 @@ public class OfferController {
                     bindingResult);
             return "redirect:/offer/add";
         }
+
+        Files.write(Path.of(UPLOAD_DIRECTORY + file.getOriginalFilename()), file.getBytes());
+        offerDTO.setImageUrl("/uploads/" + file.getOriginalFilename());
         offerService.saveOffer(offerDTO);
+
         return "redirect:/";
     }
 
