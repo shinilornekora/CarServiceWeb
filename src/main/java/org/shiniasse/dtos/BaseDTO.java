@@ -1,6 +1,5 @@
 package org.shiniasse.dtos;
 
-//  TODO ask about base class with ID for DTOs
 public abstract class BaseDTO {
     private String id;
 

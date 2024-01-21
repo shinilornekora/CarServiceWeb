@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Service;
 
 public class UserRegistrationDTO {
+    @Unique
     private String username;
     private String password;
     private String firstName;

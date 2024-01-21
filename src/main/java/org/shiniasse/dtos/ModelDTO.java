@@ -1,6 +1,5 @@
 package org.shiniasse.dtos;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.shiniasse.entities.enums.Category;

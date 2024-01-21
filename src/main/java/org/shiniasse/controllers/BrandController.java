@@ -29,7 +29,9 @@ public class BrandController {
 
     @GetMapping("")
     public String getBrands(Model model, Principal principal) {
-        LOG.log(Level.INFO, "Get all brands for user " + principal.getName());
+        if (principal != null) {
+            LOG.log(Level.INFO, "Get all brands for user " + principal.getName());
+        }
         model.addAttribute("brands", brandService.getAllBrands());
         return "brand-all";
     }
