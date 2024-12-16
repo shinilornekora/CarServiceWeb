@@ -5,5 +5,5 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean install -DskipTests
 COPY target/CarServiceWeb-*.jar /app/CarServiceWeb.jar
-EXPOSE 8080
+EXPOSE 8085
 CMD ["java", "-jar", "/app/CarServiceWeb.jar"]
