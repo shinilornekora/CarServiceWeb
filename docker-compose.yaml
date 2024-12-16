@@ -1,0 +1,23 @@
+version: '3'
+services:
+  jenkins-server:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: jenkins-server
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+  jenkins-agent:
+    image: jenkins/inbound-agent
+    container_name: jenkins-agent
+    environment:
+      - JENKINS_URL=http://jenkins-server:8080
+      - JENKINS_AGENT_NAME=agent
+      - JENKINS_SECRET=430a6a731b8ddcbe35dbaa9b25b9af0b4cc8603e1bc2f74741d284ada6d9d62e
+    depends_on:
+      - jenkins-server
+volumes:
+  jenkins_home:
